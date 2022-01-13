@@ -1,0 +1,103 @@
+	Decision Tree
+
+import numpy as np
+import pandas as pd 
+import matplotlib.pyplot as plt
+from sklearn import metrics
+dataset=pd.read_csv(r"C:/Users/acer/Desktop/New folder/userdata.csv")
+x=dataset.iloc[:,[2,3]].values
+y=dataset.iloc[:,-1].values
+print(x)
+print(y)                                                                                             
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.2,random_state=0)
+from sklearn.preprocessing import StandardScaler
+sc=StandardScaler()
+x_train=sc.fit_transform(x_train)
+x_test=sc.transform(x_test)
+from sklearn.tree import DecisionTreeClassifier
+classifier=DecisionTreeClassifier(criterion='entropy')
+classifier.fit(x_train,y_train)
+y_pred=classifier.predict(x_test)
+from sklearn.metrics import confusion_matrix
+cm=confusion_matrix(y_test,y_pred)
+print(cm)
+from sklearn.metrics import accuracy_score
+print("Accuracy:",metrics.accuracy_score(y_test,y_pred))
+
+	Navi bays
+
+import numpy as np 
+import matplotlib.pyplot as mtp 
+import pandas as pd 
+dataset=pd.read_csv(r"C:\Users\ISE2019\Desktop\userdata.csv")
+x=dataset.iloc[:,[2,3]].values
+y=dataset.iloc[:,4].values
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=0.25,random_state=0)
+from sklearn.preprocessing import StandardScaler
+sc=StandardScaler()
+x_train=sc.fit_transform(x_train)
+x_test=sc.transform(x_test)
+from sklearn.naive_bayes import GaussianNB
+classifier=GaussianNB()
+classifier.fit(x_train,y_train)
+y_pred=classifier.predict(x_test)
+from sklearn.metrics import  confusion_matrix
+cm=confusion_matrix(y_test,y_pred)
+print(cm)
+
+	Kmeans cluster
+
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.datasets import make_blobs
+from sklearn.cluster import KMeans
+num_samples_total=100
+cluster_centers=[(20,20,),(15,15),(10,10),(4,4)]
+num_classes=len(cluster_centers)
+X,targets=make_blobs(n_samples=num_samples_total,centers=cluster_centers,n_features=num_classes,center_box=(0,1),cluster_std=2)
+kmeans=KMeans(init="k-means++",n_clusters=num_classes,n_init=10)
+kmeans.fit(X)
+P=kmeans.predict(X)
+colors={
+    0:'#b40426',
+    1:'#3b4cc0',
+    2:'#f2da0a',
+    3:'#ff2da0'
+}
+colors=list(map(lambda X: colors[X],P))
+plt.scatter(X[:,0],X[:,1],c=colors,marker="o",picker=True)
+plt.title("Two clusters of data")
+plt.xlabel('X')
+plt.ylabel('Y')
+plt.show()
+
+	Kmeans data frame
+
+import pandas as pd 
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib inline
+
+df = pd.DataFrame({
+    'x':[12,20,28,18,29,33,24,45,45,52,51,52,55,53,55,61],
+    'y':[39,36,30,52,54,46,55,63,70,66,63,58,23,14,8,19]
+})
+from sklearn.cluster import KMeans
+kmeans=KMeans(n_clusters=4)
+kmeans.fit(df)
+labels=kmeans.predict(df)
+centroids=kmeans.cluster_centers_
+colors={
+    0:'#b40426',
+    1:'#3b4cc0',
+    2:'#f2da0a',
+    3:'#ff2da0'
+}
+colors=list(map(lambda x: colors[x],labels))
+plt.scatter(df['x'],df['y'],c=colors,marker="o",picker=True)
+plt.title("Two clusters of data")
+plt.xlabel('x')
+plt.ylabel('y')
+plt.show()
